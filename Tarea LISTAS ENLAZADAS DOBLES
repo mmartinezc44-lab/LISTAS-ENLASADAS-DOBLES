@@ -1,1 +1,238 @@
+class Nodo:
+    def __init__(self, dato):
+        self.dato = dato
+        self.sig = None
+        self.ant = None
 
+
+class ListaDoble:
+
+    def __init__(self):
+        self.head = None
+
+
+    # 1 Insertar al inicio
+    def insertar_inicio(self, dato):
+
+        nuevo = Nodo(dato)
+
+        if self.head != None:
+            self.head.ant = nuevo
+            nuevo.sig = self.head
+
+        self.head = nuevo
+
+
+    # 2 Insertar al final
+    def insertar_final(self, dato):
+
+        nuevo = Nodo(dato)
+
+        if self.head == None:
+            self.head = nuevo
+            return
+
+        temp = self.head
+
+        while temp.sig != None:
+            temp = temp.sig
+
+        temp.sig = nuevo
+        nuevo.ant = temp
+
+
+    # 3 Mostrar normal
+    def mostrar(self):
+
+        temp = self.head
+
+        while temp != None:
+            print(temp.dato, end=" -> ")
+            temp = temp.sig
+
+        print("None")
+
+
+    # 4 Mostrar inverso
+    def mostrar_inverso(self):
+
+        temp = self.head
+
+        if temp == None:
+            return
+
+        while temp.sig != None:
+            temp = temp.sig
+
+        while temp != None:
+            print(temp.dato, end=" -> ")
+            temp = temp.ant
+
+        print("None")
+
+
+    # 5 Eliminar nodo
+    def eliminar(self, dato):
+
+        temp = self.head
+
+        while temp != None:
+
+            if temp.dato == dato:
+
+                if temp.ant == None:
+                    self.head = temp.sig
+                    if self.head != None:
+                        self.head.ant = None
+
+                else:
+                    temp.ant.sig = temp.sig
+                    if temp.sig != None:
+                        temp.sig.ant = temp.ant
+
+                return
+
+            temp = temp.sig
+
+    # 6 Insertar en posición
+    def insertar_posicion(self, dato, pos):
+
+        nuevo = Nodo(dato)
+
+        temp = self.head
+        cont = 0
+
+        while temp != None and cont < pos - 1:
+            temp = temp.sig
+            cont += 1
+
+        if temp == None:
+            return
+
+        nuevo.sig = temp.sig
+        nuevo.ant = temp
+
+        if temp.sig != None:
+            temp.sig.ant = nuevo
+
+        temp.sig = nuevo
+
+    # 7 Modificar posición
+    def modificar(self, pos, nuevo_dato):
+
+        temp = self.head
+        cont = 0
+
+        while temp != None:
+
+            if cont == pos:
+                temp.dato = nuevo_dato
+                return
+
+            cont += 1
+            temp = temp.sig
+
+
+    # 8 Insertar después de un elemento
+    def insertar_despues(self, buscado, dato):
+
+        temp = self.head
+
+        while temp != None:
+
+            if temp.dato == buscado:
+
+                nuevo = Nodo(dato)
+
+                nuevo.sig = temp.sig
+                nuevo.ant = temp
+
+                if temp.sig != None:
+                    temp.sig.ant = nuevo
+
+                temp.sig = nuevo
+                return
+
+            temp = temp.sig
+
+
+    # 9 Suma de nodos
+    def suma(self):
+
+        temp = self.head
+        total = 0
+
+        while temp != None:
+            total += temp.dato
+            temp = temp.sig
+
+        print("Suma:", total)
+
+
+    # 10 Ordenar menor a mayor
+    def ordenar_menor(self):
+
+        temp = self.head
+
+        while temp != None:
+
+            temp2 = temp.sig
+
+            while temp2 != None:
+
+                if temp.dato > temp2.dato:
+                    temp.dato, temp2.dato = temp2.dato, temp.dato
+
+                temp2 = temp2.sig
+
+            temp = temp.sig
+
+
+    # 11 Ordenar mayor a menor
+    def ordenar_mayor(self):
+
+        temp = self.head
+
+        while temp != None:
+
+            temp2 = temp.sig
+
+            while temp2 != None:
+
+                if temp.dato < temp2.dato:
+                    temp.dato, temp2.dato = temp2.dato, temp.dato
+
+                temp2 = temp2.sig
+
+            temp = temp.sig
+
+# Crear la lista
+lista = ListaDoble()
+
+lista.insertar_inicio(10)
+lista.insertar_inicio(30)
+lista.insertar_final(20)
+
+print("Lista normal:")
+lista.mostrar()
+
+print("Lista inversa:")
+lista.mostrar_inverso()
+
+lista.insertar_posicion(15,1)
+print("Después de insertar en posición 1:")
+lista.mostrar()
+
+lista.modificar(2,50)
+print("Después de modificar posición 2:")
+lista.mostrar()
+
+lista.suma()
+
+lista.ordenar_menor()
+print("Ordenado menor a mayor:")
+lista.mostrar()
+
+lista.ordenar_mayor()
+print("Ordenado mayor a menor:")
+lista.mostrar()
